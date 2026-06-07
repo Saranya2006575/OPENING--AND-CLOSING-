@@ -29,49 +29,44 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Step 1: Load the image using cv2.imread()
-image = cv2.imread("Fish.jpg")  
+# Create a blank image
+image = np.zeros((500, 500, 3), dtype=np.uint8)
 
-# Step 2: Create a structuring element (5x5 rectangular)
-kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+# Add text on the image using cv2.putText
+font = cv2.FONT_HERSHEY_SIMPLEX
+cv2.putText(image, 'Open and Close', (100, 250), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
 
-# Step 3: Use Opening operation (erosion followed by dilation)
-opening_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+# Create a simple square kernel (3x3)
+kernel = np.ones((3, 3), np.uint8)
 
-# Step 4: Use Closing operation (dilation followed by erosion)
-closing_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+# Display the input image
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB for displaying
+plt.title("Input Image with Text")
+plt.axis('off')
 
-# Convert images from BGR to RGB for Matplotlib
-image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-opening_image_rgb = cv2.cvtColor(opening_image, cv2.COLOR_BGR2RGB)
-closing_image_rgb = cv2.cvtColor(closing_image, cv2.COLOR_BGR2RGB)
+# Opening is erosion followed by dilation
+opened_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
 
-# Plot the original, opening, and closing images using Matplotlib
-plt.figure(figsize=(10, 5))
-
-plt.subplot(1, 3, 1)
-plt.imshow(image_rgb)
-plt.title("Original Image")
-plt.axis("off")
-
-plt.subplot(1, 3, 2)
-plt.imshow(opening_image_rgb)
+# Display the result of Opening
+plt.imshow(cv2.cvtColor(opened_image, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB
 plt.title("Opening Operation")
-plt.axis("off")
+plt.axis('off')
 
-plt.subplot(1, 3, 3)
-plt.imshow(closing_image_rgb)
+# Closing is dilation followed by erosion
+closed_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+
+# Display the result of Opening
+plt.imshow(cv2.cvtColor(closed_image, cv2.COLOR_BGR2RGB))  # Convert BGR to RGB
 plt.title("Closing Operation")
-plt.axis("off")
+plt.axis('off')
 
-plt.tight_layout()
-plt.show()
 
 ```
 ## Output:
 
 ### Display the input Image
-<img width="438" height="461" alt="image" src="https://github.com/user-attachments/assets/10d7d562-eeb4-4d2d-a327-58d58be625c8" />
+<img width="451" height="460" alt="image" src="https://github.com/user-attachments/assets/05d24d03-c090-4b4b-9239-495f67da0174" />
+
 
 
 ### Display the result of Opening
